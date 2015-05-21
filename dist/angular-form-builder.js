@@ -662,6 +662,9 @@
             if ($popover.length > 0) {
               elementOrigin = $(element).offset().top + $(element).height() / 2;
               popoverTop = elementOrigin - $popover.height() / 2;
+              if (popoverTop < 0) {
+                popoverTop = 0;
+              }
               $popover.css({
                 position: 'absolute',
                 top: popoverTop
