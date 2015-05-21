@@ -1,3 +1,20 @@
+popoverButtons =
+    """
+    <div class="form-group clearfix last">
+        <hr/>
+        <button type="button" ng-click="popover.cancel($event)" class="btn btn-sm btn-default pull-left">Cancel</button>
+
+        <button type="button" ng-click="popover.remove($event)" class="btn btn-sm btn-danger pull-left">Delete</button>
+
+        <button type="submit" ng-click="popover.save($event)" class="btn btn-sm btn-primary pull-right">Save</button>
+    </div>
+    """
+
+popoverCloseX =
+    """
+    <button type="button" class="close" ng-click="popover.cancel($event)" aria-label="Close" title="Close"><span aria-hidden="true">&times;</span></button>
+    """
+
 angular.module 'builder.components', ['builder', 'validator.rules']
 
 .config ['$builderProvider', ($builderProvider) ->
@@ -64,12 +81,7 @@ angular.module 'builder.components', ['builder', 'validator.rules']
                     </div>
                 </div>
 
-                <hr/>
-                <div class='form-group'>
-                    <input type='button' ng-click="popover.remove($event)" class='btn btn-danger fa h-c-34 pull-right m-b m-l-xs' value='&#xf1f8'/>
-                    <input type='submit' ng-click="popover.save($event)" class='btn btn-primary h-c-34 pull-right m-b fa' value='&#xf0c7'/>
-                    <input type='button' ng-click="popover.cancel($event)" class='btn btn-white h-c-34 pull-left m-b' value='Cancel'/>
-                </div>
+                #{popoverButtons}
             </form>
             """
 
@@ -106,6 +118,7 @@ angular.module 'builder.components', ['builder', 'validator.rules']
             """
         popoverTemplate:
             """
+            #{popoverCloseX}
             <form>
 
                 <div role="tabpanel">
@@ -200,13 +213,10 @@ angular.module 'builder.components', ['builder', 'validator.rules']
                         </div>
 
                 </div>
-                <hr/>
-                <div class='form-group'>
-                    <input type='button' ng-click="popover.remove($event)" class='btn btn-danger fa h-c-34 pull-right m-b m-l-xs' value='&#xf1f8'/>
-                    <input type='submit' ng-click="popover.save($event)" class='btn btn-primary h-c-34 pull-right m-b fa' value='&#xf0c7'/>
-                    <input type='button' ng-click="popover.cancel($event)" class='btn btn-white h-c-34 pull-left m-b' value='Cancel'/>
-                </div>
+
+
             </form>
+            #{popoverButtons}
             """
 
 
@@ -237,10 +247,9 @@ angular.module 'builder.components', ['builder', 'validator.rules']
             """
         popoverTemplate:
             """
+            #{popoverCloseX}
             <form>
-
                 <div role="tabpanel">
-
                     <!-- Nav tabs -->
                     <ul class="nav nav-justified nav-tabs" role="tablist" style="margin-left:-10px">
                         <li role="presentation" class="active"><a href="{{'#properties' + date + index}}" aria-controls="{{'properties' + date + index}}" role="tab" data-toggle="tab">Properties</a></li>
@@ -344,14 +353,8 @@ angular.module 'builder.components', ['builder', 'validator.rules']
 
                     </div>
                 </div>
-
-                <hr/>
-                <div class='form-group'>
-                    <input type='button' ng-click="popover.remove($event)" class='btn btn-danger fa h-c-34 pull-right m-b m-l-xs' value='&#xf1f8'/>
-                    <input type='submit' ng-click="popover.save($event)" class='btn btn-primary h-c-34 pull-right m-b fa' value='&#xf0c7'/>
-                    <input type='button' ng-click="popover.cancel($event)" class='btn btn-white h-c-34 pull-left m-b' value='Cancel'/>
-                </div>
             </form>
+            #{popoverButtons}
             """
 
     # ----------------------------------------
@@ -388,6 +391,7 @@ angular.module 'builder.components', ['builder', 'validator.rules']
             """
         popoverTemplate:
             """
+            #{popoverCloseX}
             <form>
 
                 <div role="tabpanel">
@@ -502,14 +506,8 @@ angular.module 'builder.components', ['builder', 'validator.rules']
                         </div>
                     </div>
                 </div>
-
-                <hr/>
-                <div class='form-group'>
-                    <input type='button' ng-click="popover.remove($event)" class='btn btn-danger fa h-c-34 pull-right m-b m-l-xs' value='&#xf1f8'/>
-                    <input type='submit' ng-click="popover.save($event)" class='btn btn-primary h-c-34 pull-right m-b fa' value='&#xf0c7'/>
-                    <input type='button' ng-click="popover.cancel($event)" class='btn btn-white h-c-34 pull-left m-b' value='Cancel'/>
-                </div>
             </form>
+            #{popoverButtons}
             """
 
     # ----------------------------------------
@@ -537,6 +535,7 @@ angular.module 'builder.components', ['builder', 'validator.rules']
             """
         popoverTemplate:
             """
+            #{popoverCloseX}
             <form>
 
                 <div role="tabpanel">
@@ -625,14 +624,8 @@ angular.module 'builder.components', ['builder', 'validator.rules']
                         </div>
                     </div>
                 </div>
-
-                <hr/>
-                <div class='form-group'>
-                    <input type='button' ng-click="popover.remove($event)" class='btn btn-danger fa h-c-34 pull-right m-b m-l-xs' value='&#xf1f8'/>
-                    <input type='submit' ng-click="popover.save($event)" class='btn btn-primary h-c-34 pull-right m-b fa' value='&#xf0c7'/>
-                    <input type='button' ng-click="popover.cancel($event)" class='btn btn-white h-c-34 pull-left m-b' value='Cancel'/>
-                </div>
             </form>
+            #{popoverButtons}
             """
 
     # ----------------------------------------
@@ -669,6 +662,7 @@ angular.module 'builder.components', ['builder', 'validator.rules']
             """
         popoverTemplate:
             """
+            #{popoverCloseX}
             <form>
 
                 <div role="tabpanel">
@@ -758,14 +752,8 @@ angular.module 'builder.components', ['builder', 'validator.rules']
                         </div>
                     </div>
                 </div>
-
-                <hr/>
-                <div class='form-group'>
-                    <input type='button' ng-click="popover.remove($event)" class='btn btn-danger fa h-c-34 pull-right m-b m-l-xs' value='&#xf1f8'/>
-                    <input type='submit' ng-click="popover.save($event)" class='btn btn-primary h-c-34 pull-right m-b fa' value='&#xf0c7'/>
-                    <input type='button' ng-click="popover.cancel($event)" class='btn btn-white h-c-34 pull-left m-b' value='Cancel'/>
-                </div>
             </form>
+            #{popoverButtons}
             """
 
     # ----------------------------------------
@@ -799,6 +787,7 @@ angular.module 'builder.components', ['builder', 'validator.rules']
             """
         popoverTemplate:
             """
+            #{popoverCloseX}
             <form>
 
                 <div role="tabpanel">
@@ -889,14 +878,8 @@ angular.module 'builder.components', ['builder', 'validator.rules']
                         </div>
                     </div>
                 </div>
-
-                <hr/>
-                <div class='form-group'>
-                    <input type='button' ng-click="popover.remove($event)" class='btn btn-danger fa h-c-34 pull-right m-b m-l-xs' value='&#xf1f8'/>
-                    <input type='submit' ng-click="popover.save($event)" class='btn btn-primary h-c-34 pull-right m-b fa' value='&#xf0c7'/>
-                    <input type='button' ng-click="popover.cancel($event)" class='btn btn-white h-c-34 pull-left m-b' value='Cancel'/>
-                </div>
             </form>
+            #{popoverButtons}
             """
 
     # ----------------------------------------
@@ -934,6 +917,7 @@ angular.module 'builder.components', ['builder', 'validator.rules']
             """
         popoverTemplate:
             """
+            #{popoverCloseX}
             <form>
 
                 <div role="tabpanel">
@@ -1032,14 +1016,8 @@ angular.module 'builder.components', ['builder', 'validator.rules']
                         </div>
                     </div>
                 </div>
-
-                <hr/>
-                <div class='form-group'>
-                    <input type='button' ng-click="popover.remove($event)" class='btn btn-danger fa h-c-34 pull-right m-b m-l-xs' value='&#xf1f8'/>
-                    <input type='submit' ng-click="popover.save($event)" class='btn btn-primary h-c-34 pull-right m-b fa' value='&#xf0c7'/>
-                    <input type='button' ng-click="popover.cancel($event)" class='btn btn-white h-c-34 pull-left m-b' value='Cancel'/>
-                </div>
             </form>
+            #{popoverButtons}
             """
 
         # ----------------------------------------
@@ -1073,6 +1051,7 @@ angular.module 'builder.components', ['builder', 'validator.rules']
                 """
             popoverTemplate:
                 """
+                #{popoverCloseX}
                 <form>
 
                     <div role="tabpanel">
@@ -1162,14 +1141,8 @@ angular.module 'builder.components', ['builder', 'validator.rules']
                         </div>
 
                     </div>
-
-                    <hr/>
-                    <div class='form-group'>
-                        <input type='button' ng-click="popover.remove($event)" class='btn btn-danger fa h-c-34 pull-right m-b m-l-xs' value='&#xf1f8'/>
-                        <input type='submit' ng-click="popover.save($event)" class='btn btn-primary h-c-34 pull-right m-b fa' value='&#xf0c7'/>
-                        <input type='button' ng-click="popover.cancel($event)" class='btn btn-white h-c-34 pull-left m-b' value='Cancel'/>
-                    </div>
                 </form>
+                #{popoverButtons}
                 """
 
 
@@ -1201,6 +1174,7 @@ angular.module 'builder.components', ['builder', 'validator.rules']
             #         """
             #     popoverTemplate:
             #         """
+            #         #{popoverCloseX}
             #         <form>
             #
             #             <div role="tabpanel">
@@ -1257,14 +1231,8 @@ angular.module 'builder.components', ['builder', 'validator.rules']
             #                     </div>
             #                 </div>
             #             </div>
-            #
-            #             <hr/>
-            #             <div class='form-group'>
-            #                 <input type='button' ng-click="popover.remove($event)" class='btn btn-danger fa h-c-34 pull-right m-b m-l-xs' value='&#xf1f8'/>
-            #                 <input type='submit' ng-click="popover.save($event)" class='btn btn-primary h-c-34 pull-right m-b fa' value='&#xf0c7'/>
-            #                 <input type='button' ng-click="popover.cancel($event)" class='btn btn-white h-c-34 pull-left m-b' value='Cancel'/>
-            #             </div>
             #         </form>
+            #         #{popoverButtons}
             #         """
 
             # ----------------------------------------
@@ -1294,6 +1262,7 @@ angular.module 'builder.components', ['builder', 'validator.rules']
                     """
                 popoverTemplate:
                     """
+                    #{popoverCloseX}
                     <form>
 
                         <div role="tabpanel">
@@ -1383,13 +1352,7 @@ angular.module 'builder.components', ['builder', 'validator.rules']
                             <label class='control-label'>Validation</label>
                             <select ng-model="$parent.validation" class='form-control' ng-options="option.rule as option.label for option in validationOptions"></select>
                         </div>
-
-                        <hr/>
-                        <div class='form-group'>
-                            <input type='button' ng-click="popover.remove($event)" class='btn btn-danger fa h-c-34 pull-right m-b m-l-xs' value='&#xf1f8'/>
-                            <input type='submit' ng-click="popover.save($event)" class='btn btn-primary h-c-34 pull-right m-b fa' value='&#xf0c7'/>
-                            <input type='button' ng-click="popover.cancel($event)" class='btn btn-white h-c-34 pull-left m-b' value='Cancel'/>
-                        </div>
                     </form>
+                    #{popoverButtons}
                     """
 ]

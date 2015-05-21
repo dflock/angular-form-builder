@@ -47,11 +47,31 @@
 
 .popover {
     max-width: 500px;
+
     .control-label {
         text-align: left;
     }
     form {
         width: auto;
         max-width: 500px;
+    }
+    .close {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+    }
+    .last {
+        margin-bottom: 5px;
+
+        hr {
+            margin: 10px 0;
+        }
+        button {
+            margin-right: 10px;
+        }
+    }
+    .tab-content {
+        margin-top: 10px;
+        min-height: 250px;
     }
 }
