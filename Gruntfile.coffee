@@ -46,7 +46,7 @@ module.exports = (grunt) ->
                 options:
                     protocol: 'http'
                     hostname: '*'
-                    port: 8000
+                    port: 8008
                     base: '.'
 
         karma:
