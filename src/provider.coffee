@@ -98,8 +98,9 @@ angular.module 'builder.provider', []
             category: formObject.category ? component.category
             pointRules: formObject.pointRules ? component.pointRules
             conversionType: formObject.conversionType ? component.conversionType
-        for modelAttribute in @additionalModelAttributes
-            result[modelAttribute] = formObject[modelAttribute] ? component[modelAttribute]
+        if @additionalModelAttributes
+            for modelAttribute in @additionalModelAttributes
+                result[modelAttribute] = formObject[modelAttribute] ? component[modelAttribute]
         result
 
     @reindexFormObject = (name) =>
