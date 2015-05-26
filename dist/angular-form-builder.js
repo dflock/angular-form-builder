@@ -168,7 +168,7 @@
         4. Watch scope.optionsText then convert to scope.options.
         5. setup validationOptions
          */
-        var component;
+        var additionalWatchAttributes, component;
         copyObjectToScope(formObject, $scope);
         $scope.optionsText = formObject.options.join('\n');
         $scope.$watch('[label, description, placeholder, required, options, validation, multiple, minLength, maxLength, disableWeekends, maxDate, requireConfirmation, readOnly, minRange, maxRange, nextXDays, performCreditCheck, cprCountry, logic, category, pointRules, conversionType]', function() {
@@ -211,6 +211,19 @@
           })();
           return $scope.inputText = $scope.options[0];
         });
+        if ($builder.additionalModelAttributes) {
+          additionalWatchAttributes = JSON.stringify($builder.additionalModelAttributes).replace(/"/g, "");
+          $scope.$watch(additionalWatchAttributes, function() {
+            var modelAttribute, _i, _len, _ref, _results;
+            _ref = $builder.additionalModelAttributes;
+            _results = [];
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              modelAttribute = _ref[_i];
+              _results.push(formObject[modelAttribute] = $scope[modelAttribute]);
+            }
+            return _results;
+          }, true);
+        }
         component = $builder.components[formObject.component];
         return $scope.validationOptions = component.validationOptions;
       };
@@ -221,7 +234,8 @@
           /*
           Backup input value.
            */
-          return this.model = {
+          var modelAttribute, _i, _len, _ref, _ref1, _results;
+          this.model = {
             label: $scope.label,
             description: $scope.description,
             placeholder: $scope.placeholder,
@@ -245,12 +259,22 @@
             pointRules: $scope.pointRules,
             conversionType: $scope.conversionType
           };
+          if ($builder.additionalModelAttributes) {
+            _ref = $builder.additionalModelAttributes;
+            _results = [];
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              modelAttribute = _ref[_i];
+              _results.push(this.model[modelAttribute] = (_ref1 = $scope[modelAttribute]) != null ? _ref1 : '');
+            }
+            return _results;
+          }
         },
         rollback: function() {
 
           /*
           Rollback input value.
            */
+          var modelAttribute, _i, _len, _ref, _ref1, _results;
           if (!this.model) {
             return;
           }
@@ -275,7 +299,16 @@
           $scope.logic = this.model.logic;
           $scope.category = this.model.category;
           $scope.pointRules = this.model.pointRules;
-          return $scope.conversionType = this.model.conversionType;
+          $scope.conversionType = this.model.conversionType;
+          if ($builder.additionalModelAttributes) {
+            _ref = $builder.additionalModelAttributes;
+            _results = [];
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              modelAttribute = _ref[_i];
+              _results.push($scope[modelAttribute] = (_ref1 = this.model[modelAttribute]) != null ? _ref1 : '');
+            }
+            return _results;
+          }
         }
       };
     }
@@ -1349,8 +1382,9 @@
     };
     this.skipLogicComponents = [];
     this.forms = {};
+    this.additionalModelAttributes = [];
     this.convertComponent = function(name, component) {
-      var result, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
+      var modelAttribute, result, _i, _len, _ref, _ref1, _ref10, _ref11, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
       result = {
         name: name,
         group: (_ref = component.group) != null ? _ref : 'Default',
@@ -1368,6 +1402,11 @@
         popoverTemplate: component.popoverTemplate,
         popoverTemplateUrl: component.popoverTemplateUrl
       };
+      _ref10 = this.additionalModelAttributes;
+      for (_i = 0, _len = _ref10.length; _i < _len; _i++) {
+        modelAttribute = _ref10[_i];
+        result[modelAttribute] = (_ref11 = component[modelAttribute]) != null ? _ref11 : '';
+      }
       if (!result.template && !result.templateUrl) {
         console.error("The template is empty.");
       }
@@ -1377,7 +1416,7 @@
       return result;
     };
     this.convertFormObject = function(name, formObject) {
-      var component, result, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
+      var component, modelAttribute, result, _i, _len, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23, _ref24, _ref25, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
       if (formObject == null) {
         formObject = {};
       }
@@ -1413,6 +1452,13 @@
         pointRules: (_ref22 = formObject.pointRules) != null ? _ref22 : component.pointRules,
         conversionType: (_ref23 = formObject.conversionType) != null ? _ref23 : component.conversionType
       };
+      if (this.additionalModelAttributes) {
+        _ref24 = this.additionalModelAttributes;
+        for (_i = 0, _len = _ref24.length; _i < _len; _i++) {
+          modelAttribute = _ref24[_i];
+          result[modelAttribute] = (_ref25 = formObject[modelAttribute]) != null ? _ref25 : component[modelAttribute];
+        }
+      }
       return result;
     };
     this.reindexFormObject = (function(_this) {
