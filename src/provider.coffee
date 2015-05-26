@@ -36,6 +36,9 @@ angular.module 'builder.provider', []
     @forms = {}
         # skipLogic: []
 
+    @additionalModelAttributes = []
+
+
 
     # ----------------------------------------
     # private functions
@@ -57,6 +60,8 @@ angular.module 'builder.provider', []
             templateUrl: component.templateUrl
             popoverTemplate: component.popoverTemplate
             popoverTemplateUrl: component.popoverTemplateUrl
+        for modelAttribute in @additionalModelAttributes
+            result[modelAttribute] = component[modelAttribute] ? ''
         if not result.template and not result.templateUrl
             console.error "The template is empty."
         if not result.popoverTemplate and not result.popoverTemplateUrl
@@ -93,6 +98,9 @@ angular.module 'builder.provider', []
             category: formObject.category ? component.category
             pointRules: formObject.pointRules ? component.pointRules
             conversionType: formObject.conversionType ? component.conversionType
+        if @additionalModelAttributes
+            for modelAttribute in @additionalModelAttributes
+                result[modelAttribute] = formObject[modelAttribute] ? component[modelAttribute]
         result
 
     @reindexFormObject = (name) =>

@@ -292,6 +292,14 @@ angular.module 'builder.controller', ['builder.provider']
             $scope.options = (x for x in text.split('\n') when x.length > 0)
             $scope.inputText = $scope.options[0]
 
+        if $builder.additionalModelAttributes
+            additionalWatchAttributes = JSON.stringify($builder.additionalModelAttributes).replace /"/g, ""
+
+            $scope.$watch additionalWatchAttributes, ->
+                for modelAttribute in $builder.additionalModelAttributes
+                    formObject[modelAttribute] = $scope[modelAttribute]
+            , yes
+
         component = $builder.components[formObject.component]
         $scope.validationOptions = component.validationOptions
 
@@ -324,6 +332,10 @@ angular.module 'builder.controller', ['builder.provider']
                 category: $scope.category
                 pointRules: $scope.pointRules
                 conversionType: $scope.conversionType
+
+            if $builder.additionalModelAttributes
+                for modelAttribute in $builder.additionalModelAttributes
+                    @model[modelAttribute] = $scope[modelAttribute] ? ''
         rollback: ->
             ###
             Rollback input value.
@@ -351,6 +363,11 @@ angular.module 'builder.controller', ['builder.provider']
             $scope.category = @model.category
             $scope.pointRules = @model.pointRules
             $scope.conversionType = @model.conversionType
+
+
+            if $builder.additionalModelAttributes
+                for modelAttribute in $builder.additionalModelAttributes
+                    $scope[modelAttribute] = @model[modelAttribute] ? ''
 ]
 
 # ----------------------------------------
