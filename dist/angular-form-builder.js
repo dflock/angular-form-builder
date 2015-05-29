@@ -69,7 +69,7 @@
       ];
       $scope.addRule = function() {
         if (($scope.newRule.predicate == null) || !$scope.newRule.points || (($scope.newRule.value == null) && $scope.newRule.predicate !== 'null' && $scope.newRule.predicate !== 'not_null')) {
-          return $scope.rulesErrorMessage = 'Please updade all fields.';
+          return $scope.rulesErrorMessage = 'Please update all fields.';
         } else {
           $scope.rulesErrorMessage = '';
           if (angular.isDate($scope.newRule.value)) {
@@ -234,7 +234,7 @@
           /*
           Backup input value.
            */
-          var modelAttribute, _i, _len, _ref, _ref1, _results;
+          var modelAttribute, _i, _len, _ref, _results;
           this.model = {
             label: $scope.label,
             description: $scope.description,
@@ -264,7 +264,7 @@
             _results = [];
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
               modelAttribute = _ref[_i];
-              _results.push(this.model[modelAttribute] = (_ref1 = $scope[modelAttribute]) != null ? _ref1 : '');
+              _results.push(this.model[modelAttribute] = $scope[modelAttribute]);
             }
             return _results;
           }
@@ -274,7 +274,7 @@
           /*
           Rollback input value.
            */
-          var modelAttribute, _i, _len, _ref, _ref1, _results;
+          var modelAttribute, _i, _len, _ref, _results;
           if (!this.model) {
             return;
           }
@@ -305,7 +305,7 @@
             _results = [];
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
               modelAttribute = _ref[_i];
-              _results.push($scope[modelAttribute] = (_ref1 = this.model[modelAttribute]) != null ? _ref1 : '');
+              _results.push($scope[modelAttribute] = this.model[modelAttribute]);
             }
             return _results;
           }
@@ -376,12 +376,19 @@
         Copy current scope.input[X] to $parent.input.
         @param value: The input value.
          */
-        var input;
+        var input, modelAttribute, _i, _len, _ref;
         input = {
           id: $scope.formObject.id,
           label: $scope.formObject.label,
           value: value != null ? value : ''
         };
+        if ($builder.additionalModelAttributes) {
+          _ref = $builder.additionalModelAttributes;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            modelAttribute = _ref[_i];
+            input[modelAttribute] = $scope.formObject[modelAttribute];
+          }
+        }
         return $scope.$parent.input.splice($scope.$index, 1, input);
       };
     }

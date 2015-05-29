@@ -441,5 +441,10 @@ angular.module 'builder.controller', ['builder.provider']
             id: $scope.formObject.id
             label: $scope.formObject.label
             value: value ? ''
+
+        if $builder.additionalModelAttributes
+            for modelAttribute in $builder.additionalModelAttributes
+                input[modelAttribute] = $scope.formObject[modelAttribute]
+
         $scope.$parent.input.splice $scope.$index, 1, input
 ]
