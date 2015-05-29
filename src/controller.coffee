@@ -102,7 +102,7 @@ angular.module 'builder.controller', ['builder.provider']
 
     $scope.addRule = ->
       if !$scope.newRule.predicate? or !$scope.newRule.points or (!$scope.newRule.value? and $scope.newRule.predicate isnt 'null' and $scope.newRule.predicate isnt 'not_null')
-          $scope.rulesErrorMessage = 'Please updade all fields.'
+          $scope.rulesErrorMessage = 'Please update all fields.'
       else
         $scope.rulesErrorMessage = ''
         if (angular.isDate($scope.newRule.value))
@@ -335,7 +335,8 @@ angular.module 'builder.controller', ['builder.provider']
 
             if $builder.additionalModelAttributes
                 for modelAttribute in $builder.additionalModelAttributes
-                    @model[modelAttribute] = $scope[modelAttribute] ? ''
+                    @model[modelAttribute] = $scope[modelAttribute]
+
         rollback: ->
             ###
             Rollback input value.
@@ -367,7 +368,7 @@ angular.module 'builder.controller', ['builder.provider']
 
             if $builder.additionalModelAttributes
                 for modelAttribute in $builder.additionalModelAttributes
-                    $scope[modelAttribute] = @model[modelAttribute] ? ''
+                    $scope[modelAttribute] = @model[modelAttribute]
 ]
 
 # ----------------------------------------
