@@ -1303,7 +1303,9 @@
     $validator.register('text', {
       invoke: 'watch',
       validator: function(value, scope, element, attrs, $injector) {
-        return scope.minLength === 0 || (value.length >= scope.minLength && value.length <= scope.maxLength);
+        var val;
+        val = value || '';
+        return scope.minLength === 0 || (val.length >= scope.minLength && val.length <= scope.maxLength);
       }
     });
     return $validator.register('numberRange', {

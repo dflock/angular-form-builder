@@ -3,7 +3,8 @@ angular.module 'builder', ['builder.directive']
         $validator.register('text', {
                 invoke: 'watch'
                 validator: (value, scope, element, attrs, $injector) ->
-                    scope.minLength is 0 || (value.length >= scope.minLength && value.length <= scope.maxLength)
+                    val = value || ''
+                    scope.minLength is 0 || (val.length >= scope.minLength && val.length <= scope.maxLength)
             })
         $validator.register('numberRange', {
                 invoke: 'watch'
