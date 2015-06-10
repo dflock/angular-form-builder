@@ -211,20 +211,22 @@
           })();
           return $scope.inputText = $scope.options[0];
         });
-        if ($builder.additionalModelAttributes) {
-          additionalWatchAttributes = JSON.stringify($builder.additionalModelAttributes).replace(/"/g, "");
+        component = $builder.components[formObject.component];
+        if (component.additionalProperties) {
+          additionalWatchAttributes = JSON.stringify(component.additionalProperties.map(function(attr) {
+            return attr.name;
+          })).replace(/"/g, "");
           $scope.$watch(additionalWatchAttributes, function() {
-            var modelAttribute, _i, _len, _ref, _results;
-            _ref = $builder.additionalModelAttributes;
+            var property, _i, _len, _ref, _results;
+            _ref = component.additionalProperties;
             _results = [];
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              modelAttribute = _ref[_i];
-              _results.push(formObject[modelAttribute] = $scope[modelAttribute]);
+              property = _ref[_i];
+              _results.push(formObject[property.name] = $scope[property.name]);
             }
             return _results;
           }, true);
         }
-        component = $builder.components[formObject.component];
         return $scope.validationOptions = component.validationOptions;
       };
       return $scope.data = {
@@ -234,7 +236,7 @@
           /*
           Backup input value.
            */
-          var modelAttribute, _i, _len, _ref, _results;
+          var component, property, _i, _len, _ref, _results;
           this.model = {
             label: $scope.label,
             description: $scope.description,
@@ -259,12 +261,13 @@
             pointRules: $scope.pointRules,
             conversionType: $scope.conversionType
           };
-          if ($builder.additionalModelAttributes) {
-            _ref = $builder.additionalModelAttributes;
+          component = $builder.components[$scope.component];
+          if (component.additionalProperties) {
+            _ref = component.additionalProperties;
             _results = [];
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              modelAttribute = _ref[_i];
-              _results.push(this.model[modelAttribute] = $scope[modelAttribute]);
+              property = _ref[_i];
+              _results.push(this.model[property.name] = $scope[property.name]);
             }
             return _results;
           }
@@ -274,7 +277,7 @@
           /*
           Rollback input value.
            */
-          var modelAttribute, _i, _len, _ref, _results;
+          var component, property, _i, _len, _ref, _results;
           if (!this.model) {
             return;
           }
@@ -300,12 +303,13 @@
           $scope.category = this.model.category;
           $scope.pointRules = this.model.pointRules;
           $scope.conversionType = this.model.conversionType;
-          if ($builder.additionalModelAttributes) {
-            _ref = $builder.additionalModelAttributes;
+          component = $builder.components[$scope.component];
+          if (component.additionalProperties) {
+            _ref = component.additionalProperties;
             _results = [];
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              modelAttribute = _ref[_i];
-              _results.push($scope[modelAttribute] = this.model[modelAttribute]);
+              property = _ref[_i];
+              _results.push($scope[property.name] = this.model[property.name]);
             }
             return _results;
           }
@@ -376,17 +380,18 @@
         Copy current scope.input[X] to $parent.input.
         @param value: The input value.
          */
-        var input, modelAttribute, _i, _len, _ref;
+        var component, input, property, _i, _len, _ref;
         input = {
           id: $scope.formObject.id,
           label: $scope.formObject.label,
           value: value != null ? value : ''
         };
-        if ($builder.additionalModelAttributes) {
-          _ref = $builder.additionalModelAttributes;
+        component = $builder.components[$scope.formObject.component];
+        if (component.additionalProperties) {
+          _ref = component.additionalProperties;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            modelAttribute = _ref[_i];
-            input[modelAttribute] = $scope.formObject[modelAttribute];
+            property = _ref[_i];
+            input[property.name] = $scope.formObject[property.name];
           }
         }
         return $scope.$parent.input.splice($scope.$index, 1, input);

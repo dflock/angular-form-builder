@@ -292,15 +292,18 @@ angular.module 'builder.controller', ['builder.provider']
             $scope.options = (x for x in text.split('\n') when x.length > 0)
             $scope.inputText = $scope.options[0]
 
-        if $builder.additionalModelAttributes
-            additionalWatchAttributes = JSON.stringify($builder.additionalModelAttributes).replace /"/g, ""
+        component = $builder.components[formObject.component]
+
+        if component.additionalProperties
+            additionalWatchAttributes = JSON.stringify(component.additionalProperties.map((attr) ->
+                return attr.name
+            )).replace /"/g, ""
 
             $scope.$watch additionalWatchAttributes, ->
-                for modelAttribute in $builder.additionalModelAttributes
-                    formObject[modelAttribute] = $scope[modelAttribute]
+                for property in component.additionalProperties
+                    formObject[property.name] = $scope[property.name]
             , yes
 
-        component = $builder.components[formObject.component]
         $scope.validationOptions = component.validationOptions
 
     $scope.data =
@@ -333,9 +336,10 @@ angular.module 'builder.controller', ['builder.provider']
                 pointRules: $scope.pointRules
                 conversionType: $scope.conversionType
 
-            if $builder.additionalModelAttributes
-                for modelAttribute in $builder.additionalModelAttributes
-                    @model[modelAttribute] = $scope[modelAttribute]
+            component = $builder.components[$scope.component]
+            if component.additionalProperties
+                for property in component.additionalProperties
+                    @model[property.name] = $scope[property.name]
 
         rollback: ->
             ###
@@ -365,10 +369,11 @@ angular.module 'builder.controller', ['builder.provider']
             $scope.pointRules = @model.pointRules
             $scope.conversionType = @model.conversionType
 
+            component = $builder.components[$scope.component]
 
-            if $builder.additionalModelAttributes
-                for modelAttribute in $builder.additionalModelAttributes
-                    $scope[modelAttribute] = @model[modelAttribute]
+            if component.additionalProperties
+                for property in component.additionalProperties
+                    $scope[property.name] = @model[property.name]
 ]
 
 # ----------------------------------------
@@ -442,9 +447,11 @@ angular.module 'builder.controller', ['builder.provider']
             label: $scope.formObject.label
             value: value ? ''
 
-        if $builder.additionalModelAttributes
-            for modelAttribute in $builder.additionalModelAttributes
-                input[modelAttribute] = $scope.formObject[modelAttribute]
+        component = $builder.components[$scope.formObject.component]
+
+        if component.additionalProperties
+            for property in component.additionalProperties
+                input[property.name] = $scope.formObject[property.name]
 
         $scope.$parent.input.splice $scope.$index, 1, input
 ]
