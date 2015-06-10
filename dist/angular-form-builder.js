@@ -69,7 +69,7 @@
       ];
       $scope.addRule = function() {
         if (($scope.newRule.predicate == null) || !$scope.newRule.points || (($scope.newRule.value == null) && $scope.newRule.predicate !== 'null' && $scope.newRule.predicate !== 'not_null')) {
-          return $scope.rulesErrorMessage = 'Please updade all fields.';
+          return $scope.rulesErrorMessage = 'Please update all fields.';
         } else {
           $scope.rulesErrorMessage = '';
           if (angular.isDate($scope.newRule.value)) {
@@ -211,20 +211,22 @@
           })();
           return $scope.inputText = $scope.options[0];
         });
-        if ($builder.additionalModelAttributes) {
-          additionalWatchAttributes = JSON.stringify($builder.additionalModelAttributes).replace(/"/g, "");
+        component = $builder.components[formObject.component];
+        if (component.additionalProperties) {
+          additionalWatchAttributes = JSON.stringify(component.additionalProperties.map(function(attr) {
+            return attr.name;
+          })).replace(/"/g, "");
           $scope.$watch(additionalWatchAttributes, function() {
-            var modelAttribute, _i, _len, _ref, _results;
-            _ref = $builder.additionalModelAttributes;
+            var property, _i, _len, _ref, _results;
+            _ref = component.additionalProperties;
             _results = [];
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              modelAttribute = _ref[_i];
-              _results.push(formObject[modelAttribute] = $scope[modelAttribute]);
+              property = _ref[_i];
+              _results.push(formObject[property.name] = $scope[property.name]);
             }
             return _results;
           }, true);
         }
-        component = $builder.components[formObject.component];
         return $scope.validationOptions = component.validationOptions;
       };
       return $scope.data = {
@@ -234,7 +236,7 @@
           /*
           Backup input value.
            */
-          var modelAttribute, _i, _len, _ref, _ref1, _results;
+          var component, property, _i, _len, _ref, _results;
           this.model = {
             label: $scope.label,
             description: $scope.description,
@@ -259,12 +261,13 @@
             pointRules: $scope.pointRules,
             conversionType: $scope.conversionType
           };
-          if ($builder.additionalModelAttributes) {
-            _ref = $builder.additionalModelAttributes;
+          component = $builder.components[$scope.component];
+          if (component.additionalProperties) {
+            _ref = component.additionalProperties;
             _results = [];
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              modelAttribute = _ref[_i];
-              _results.push(this.model[modelAttribute] = (_ref1 = $scope[modelAttribute]) != null ? _ref1 : '');
+              property = _ref[_i];
+              _results.push(this.model[property.name] = $scope[property.name]);
             }
             return _results;
           }
@@ -274,7 +277,7 @@
           /*
           Rollback input value.
            */
-          var modelAttribute, _i, _len, _ref, _ref1, _results;
+          var component, property, _i, _len, _ref, _results;
           if (!this.model) {
             return;
           }
@@ -300,12 +303,13 @@
           $scope.category = this.model.category;
           $scope.pointRules = this.model.pointRules;
           $scope.conversionType = this.model.conversionType;
-          if ($builder.additionalModelAttributes) {
-            _ref = $builder.additionalModelAttributes;
+          component = $builder.components[$scope.component];
+          if (component.additionalProperties) {
+            _ref = component.additionalProperties;
             _results = [];
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              modelAttribute = _ref[_i];
-              _results.push($scope[modelAttribute] = (_ref1 = this.model[modelAttribute]) != null ? _ref1 : '');
+              property = _ref[_i];
+              _results.push($scope[property.name] = this.model[property.name]);
             }
             return _results;
           }
@@ -376,12 +380,20 @@
         Copy current scope.input[X] to $parent.input.
         @param value: The input value.
          */
-        var input;
+        var component, input, property, _i, _len, _ref;
         input = {
           id: $scope.formObject.id,
           label: $scope.formObject.label,
           value: value != null ? value : ''
         };
+        component = $builder.components[$scope.formObject.component];
+        if (component.additionalProperties) {
+          _ref = component.additionalProperties;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            property = _ref[_i];
+            input[property.name] = $scope.formObject[property.name];
+          }
+        }
         return $scope.$parent.input.splice($scope.$index, 1, input);
       };
     }
@@ -1382,9 +1394,8 @@
     };
     this.skipLogicComponents = [];
     this.forms = {};
-    this.additionalModelAttributes = [];
     this.convertComponent = function(name, component) {
-      var modelAttribute, result, _i, _len, _ref, _ref1, _ref10, _ref11, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
+      var property, result, _i, _len, _ref, _ref1, _ref10, _ref11, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
       result = {
         name: name,
         group: (_ref = component.group) != null ? _ref : 'Default',
@@ -1402,10 +1413,13 @@
         popoverTemplate: component.popoverTemplate,
         popoverTemplateUrl: component.popoverTemplateUrl
       };
-      _ref10 = this.additionalModelAttributes;
-      for (_i = 0, _len = _ref10.length; _i < _len; _i++) {
-        modelAttribute = _ref10[_i];
-        result[modelAttribute] = (_ref11 = component[modelAttribute]) != null ? _ref11 : '';
+      if (component.additionalProperties) {
+        result.additionalProperties = component.additionalProperties;
+        _ref10 = component.additionalProperties;
+        for (_i = 0, _len = _ref10.length; _i < _len; _i++) {
+          property = _ref10[_i];
+          result[property.name] = (_ref11 = property.value) != null ? _ref11 : '';
+        }
       }
       if (!result.template && !result.templateUrl) {
         console.error("The template is empty.");
@@ -1416,7 +1430,7 @@
       return result;
     };
     this.convertFormObject = function(name, formObject) {
-      var component, modelAttribute, result, _i, _len, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23, _ref24, _ref25, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
+      var component, property, result, _i, _len, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23, _ref24, _ref25, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
       if (formObject == null) {
         formObject = {};
       }
@@ -1452,11 +1466,11 @@
         pointRules: (_ref22 = formObject.pointRules) != null ? _ref22 : component.pointRules,
         conversionType: (_ref23 = formObject.conversionType) != null ? _ref23 : component.conversionType
       };
-      if (this.additionalModelAttributes) {
-        _ref24 = this.additionalModelAttributes;
+      if (component.additionalProperties) {
+        _ref24 = component.additionalProperties;
         for (_i = 0, _len = _ref24.length; _i < _len; _i++) {
-          modelAttribute = _ref24[_i];
-          result[modelAttribute] = (_ref25 = formObject[modelAttribute]) != null ? _ref25 : component[modelAttribute];
+          property = _ref24[_i];
+          result[property.name] = (_ref25 = formObject[property.name]) != null ? _ref25 : property.value;
         }
       }
       return result;
