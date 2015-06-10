@@ -1392,9 +1392,8 @@
     };
     this.skipLogicComponents = [];
     this.forms = {};
-    this.additionalModelAttributes = [];
     this.convertComponent = function(name, component) {
-      var modelAttribute, result, _i, _len, _ref, _ref1, _ref10, _ref11, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
+      var property, result, _i, _len, _ref, _ref1, _ref10, _ref11, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
       result = {
         name: name,
         group: (_ref = component.group) != null ? _ref : 'Default',
@@ -1412,10 +1411,13 @@
         popoverTemplate: component.popoverTemplate,
         popoverTemplateUrl: component.popoverTemplateUrl
       };
-      _ref10 = this.additionalModelAttributes;
-      for (_i = 0, _len = _ref10.length; _i < _len; _i++) {
-        modelAttribute = _ref10[_i];
-        result[modelAttribute] = (_ref11 = component[modelAttribute]) != null ? _ref11 : '';
+      if (component.additionalProperties) {
+        result.additionalProperties = component.additionalProperties;
+        _ref10 = component.additionalProperties;
+        for (_i = 0, _len = _ref10.length; _i < _len; _i++) {
+          property = _ref10[_i];
+          result[property.name] = (_ref11 = property.value) != null ? _ref11 : '';
+        }
       }
       if (!result.template && !result.templateUrl) {
         console.error("The template is empty.");
@@ -1426,7 +1428,7 @@
       return result;
     };
     this.convertFormObject = function(name, formObject) {
-      var component, modelAttribute, result, _i, _len, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23, _ref24, _ref25, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
+      var component, property, result, _i, _len, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23, _ref24, _ref25, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
       if (formObject == null) {
         formObject = {};
       }
@@ -1462,11 +1464,11 @@
         pointRules: (_ref22 = formObject.pointRules) != null ? _ref22 : component.pointRules,
         conversionType: (_ref23 = formObject.conversionType) != null ? _ref23 : component.conversionType
       };
-      if (this.additionalModelAttributes) {
-        _ref24 = this.additionalModelAttributes;
+      if (component.additionalProperties) {
+        _ref24 = component.additionalProperties;
         for (_i = 0, _len = _ref24.length; _i < _len; _i++) {
-          modelAttribute = _ref24[_i];
-          result[modelAttribute] = (_ref25 = formObject[modelAttribute]) != null ? _ref25 : component[modelAttribute];
+          property = _ref24[_i];
+          result[property.name] = (_ref25 = formObject[property.name]) != null ? _ref25 : property.value;
         }
       }
       return result;
