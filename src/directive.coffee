@@ -504,7 +504,20 @@ angular.module 'builder.directive', [
                 for index of scope.inputArray when scope.inputArray[index]
                     unless index is 'diff'
                       checked.push scope.options[index] ? scope.inputArray[index]
-                scope.inputText = checked.join ', '
+
+                returnType = 'string'
+                sep = ', '
+                if scope.$component.additionalProperties?
+                    ap = scope.$component.additionalProperties
+                    r = (ap.filter (i) -> i.name is 'returnType')[0]
+                    s = (ap.filter (i) -> i.name is 'returnSeparator')[0]
+                    returnType = r.value if r?.value?
+                    sep = s.value if s?.value?
+
+                if returnType == 'array'
+                    scope.inputText = checked
+                else
+                    scope.inputText = checked.join sep
             , yes
         scope.$watch 'inputText', -> scope.updateInput scope.inputText
         # watch (management updated form objects
